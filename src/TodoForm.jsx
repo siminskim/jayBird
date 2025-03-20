@@ -1,9 +1,12 @@
 function TodoForm() {
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="todoTitle">Todo</label>
       <input type="text" id="todoTitle"></input>
-      <button type="button">Add Todo</button>
+      <button type="submit">Add Todo</button>
     </form>
   );
 }
