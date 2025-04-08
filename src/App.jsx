@@ -3,14 +3,17 @@ import './App.css';
 import TodoList from './TodoList';
 import TodoForm from './TodoForm';
 function App() {
-  const [newTodo, setNewTodo] = useState(['Hello']);
+  const [todoList, setTodoList] = useState([]);
+  function handleAddTodo(newTodo){
+    setTodoList([...todoList, newTodo])
+    console.log(todoList)
+  }
 
   return (
     <div>
       <h1>My Todos</h1>
-      <TodoForm />
-      <p>{newTodo}</p>
-      <TodoList />
+      <TodoForm onAddTodo={handleAddTodo} />
+      <TodoList todoList={todoList} />
     </div>
   );
 }
