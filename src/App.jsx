@@ -23,15 +23,27 @@ function App() {
   }
 
   function updatedTodo (editTodo) {
-    todoList.map((todo) => {
-      if(todo.id === editTodo.id) {
-        // if it matches - return a new object that destructures the editedTodo
-        return { ...todo, title: editTodo.title };
-      }else{
-        // if not a match - return the current todo.
-        return todo
-      }
-    })
+   const updatedTodo = todoList.map((todo) => {
+    if(todo.id === editTodo.id){
+      return {...todo, title: editTodo.title}
+    }else{
+      return todo
+    }
+    setTodoList(updatedTodo)
+   })
+   
+   
+   
+    // todoList.map((todo) => {
+  //     if(todo.id === editTodo.id) {
+  //       // if it matches - return a new object that destructures the editedTodo
+  //       return { ...todo, title: editTodo.title };
+  //     }else{
+  //       // if not a match - return the current todo.
+  //       return todo
+  //     }
+  //   })
+  //   setTodoList(updatedTodo)
   }
 
   return (
