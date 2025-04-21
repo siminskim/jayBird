@@ -3,8 +3,8 @@ import TextInputWithLabel from '../../shared/TextInputWithLabel.jsx';
 
 function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
   //
-  const [workingTitle, setWorkingTitle] = useState(todo.title);
   const [isEditing, setIsEditing] = useState(false);
+  const [workingTitle, setWorkingTitle] = useState(todo.title);
   //set state value
   function handleEdit(e) {
     setWorkingTitle(e.target.value);

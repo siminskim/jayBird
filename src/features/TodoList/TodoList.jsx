@@ -1,5 +1,5 @@
+import TodoListItem from './TodoListItem.jsx';
 import React from 'react';
-import TodoListItem from './TodoListItem';
 
 function TodoList({ todoList, onCompleteTodo, onUpdateTodo }) {
   const filteredTodoList = todoList.filter((todo) => !todo.isCompleted);
