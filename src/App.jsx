@@ -22,30 +22,13 @@ function App() {
     setTodoList(updatedTodo);
   }
 
-  function updatedTodo (editTodo) {
-   const updatedTodo = todoList.map((todo) => {
-    if(todo.id === editTodo.id){
-      return {...todo, title: editTodo.title}
-    }else{
-      return todo
-    }
-    setTodoList(updatedTodo)
-   })
-   
-   
-   
-    // todoList.map((todo) => {
-  //     if(todo.id === editTodo.id) {
-  //       // if it matches - return a new object that destructures the editedTodo
-  //       return { ...todo, title: editTodo.title };
-  //     }else{
-  //       // if not a match - return the current todo.
-  //       return todo
-  //     }
-  //   })
-  //   setTodoList(updatedTodo)
+  function updatedTodo(editTodo) {
+    const updatedTodos = todoList.map((todo) =>
+      todo.id === editTodo.id ? { ...todo, title: editTodo.title } : todo
+    );
+    setTodoList(updatedTodos);
   }
-
+  
   return (
     <div>
       <h1>My Todos</h1>

@@ -11,14 +11,9 @@ function TodoListItem({ todo, onCompleteTodo, onUpdateTodo }) {
   }
 
   function handleCancel() {
-    console.log('clicked')
     setWorkingTitle(todo.title);
     setIsEditing(false);
   }
-  // Calls onUpdateTodo and passes an object with todo's properties, setting the title to workingTitle.
-
-  // Sets isEditing to false.
-
 
   function handleUpdate (e) {
     e.preventDefault()
