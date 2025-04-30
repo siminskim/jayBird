@@ -3,7 +3,7 @@ import TextInputWithLabel from '../shared/TextInputWithLabel';
 
 function TodoForm({ onAddTodo, isSaving }) {
   const [workingTodo, setWorkingTodo] = useState('');
-  const todoTitleInput = useRef(null);
+  const todoTitleInput = useRef('');
   //
   function handleAddTodo(e) {
     e.preventDefault();
@@ -17,13 +17,12 @@ function TodoForm({ onAddTodo, isSaving }) {
       <TextInputWithLabel
         onChange={(e) => setWorkingTodo(e.target.value)}
         value={workingTodo}
-        elementId={"todoTitle"}
+        elementId={'todoTitle'}
         labelText="Todo"
         ref={todoTitleInput}
       />
       <button disabled={!workingTodo} type="submit">
-        
-        {isSaving ? 'Saving': 'Add Todo'}
+        {isSaving ? 'Saving' : 'Add Todo'}
       </button>
     </form>
   );
