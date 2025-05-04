@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
 
+const encodeUrl = ({ sortField, sortDirection, url }) => {
+  let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
+  return encodeURI(`${url}?${sortQuery}`);
+};
+
 function App() {
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
@@ -9,6 +14,8 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [todoList, setTodoList] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [sortField, setSortField] = useState('createdTime');
+  const [sortDirection, setDirection] = useState('desc');
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -20,7 +27,10 @@ function App() {
         },
       };
       try {
-        const resp = await fetch(url, options);
+        const resp = await fetch(
+          encodeUrl({ sortField, sortDirection, url }),
+          options
+        );
         if (!resp.ok) {
           throw new Error('Failed to fetch todos');
         }
@@ -39,7 +49,7 @@ function App() {
       }
     };
     fetchTodos();
-  }, []);
+  }, [sortField, sortDirection]);
 
   const handleAddTodo = async (newTodo) => {
     if (!newTodo.title) {
@@ -68,7 +78,10 @@ function App() {
 
     try {
       setIsSaving(true);
-      const resp = await fetch(url, options);
+      const resp = await fetch(
+        encodeUrl({ sortField, sortDirection, url }),
+        options
+      );
       if (!resp.ok) {
         throw new Error('Failed to add todo');
       }
@@ -111,7 +124,10 @@ function App() {
 
     try {
       setIsSaving(true);
-      const resp = await fetch(url, options);
+      const resp = await fetch(
+        encodeUrl({ sortField, sortDirection, url }),
+        options
+      );
       if (!resp.ok) {
         throw new Error('Failed to complete todo');
       }
@@ -151,7 +167,10 @@ function App() {
 
     try {
       setIsSaving(true);
-      const resp = await fetch(url, options);
+      const resp = await fetch(
+        encodeUrl({ sortField, sortDirection, url }),
+        options
+      );
       if (!resp.ok) {
         throw new Error('Failed to update todo');
       }
