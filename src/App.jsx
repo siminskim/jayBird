@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
+import TodosViewForm from './features/TodosViewForm.jsx';
 
-const encodeUrl = ({ sortField, sortDirection, url }) => {
+const encodeUrl = ({ sortField, sortDirection, url, queryString }) => {
+  let searchQuery = '';
+  if (queryString) {
+    searchQuery = `&filterByFormula=SEARCH("${queryString}",+title)`;
+  }
+
   let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
   return encodeURI(`${url}?${sortQuery}`);
 };
@@ -15,7 +21,8 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
   const [sortField, setSortField] = useState('createdTime');
-  const [sortDirection, setDirection] = useState('desc');
+  const [sortDirection, setSortDirection] = useState('desc');
+  const [queryString, setQueryString] = useState('');
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -201,6 +208,13 @@ function App() {
         onUpdateTodo={updatedTodo}
         todoList={todoList}
         onCompleteTodo={completeTodo}
+      />
+      <hr />
+      <TodosViewForm
+        sortDirection={sortDirection}
+        setSortDirection={setSortDirection}
+        sortField={sortField}
+        setSortField={setSortField}
       />
       {errorMessage && (
         <div className="error">
