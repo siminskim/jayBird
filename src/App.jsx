@@ -6,11 +6,11 @@ import TodosViewForm from './features/TodosViewForm.jsx';
 const encodeUrl = ({ sortField, sortDirection, url, queryString }) => {
   let searchQuery = '';
   if (queryString) {
-    searchQuery = `&filterByFormula=SEARCH("${queryString}",+title)`;
+    searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
   }
 
   let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
-  return encodeURI(`${url}?${sortQuery}`);
+  return encodeURI(`${url}?${sortQuery}${searchQuery}`);
 };
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
       };
       try {
         const resp = await fetch(
-          encodeUrl({ sortField, sortDirection, url }),
+          encodeUrl({ sortField, sortDirection, url, queryString }),
           options
         );
         if (!resp.ok) {
@@ -56,7 +56,7 @@ function App() {
       }
     };
     fetchTodos();
-  }, [sortField, sortDirection]);
+  }, [sortField, sortDirection, queryString]);
 
   const handleAddTodo = async (newTodo) => {
     if (!newTodo.title) {
@@ -86,7 +86,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection, url }),
+        encodeUrl({ sortField, sortDirection, url, queryString }),
         options
       );
       if (!resp.ok) {
@@ -132,7 +132,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection, url }),
+        encodeUrl({ sortField, sortDirection, url, queryString }),
         options
       );
       if (!resp.ok) {
@@ -175,7 +175,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection, url }),
+        encodeUrl({ sortField, sortDirection, url, queryString }),
         options
       );
       if (!resp.ok) {
@@ -215,6 +215,8 @@ function App() {
         setSortDirection={setSortDirection}
         sortField={sortField}
         setSortField={setSortField}
+        queryString={queryString}
+        setQueryString={setQueryString}
       />
       {errorMessage && (
         <div className="error">
