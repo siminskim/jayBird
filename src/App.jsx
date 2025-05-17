@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TodoList from './features/TodoList/TodoList.jsx';
 import TodoForm from './features/TodoForm.jsx';
 import TodosViewForm from './features/TodosViewForm.jsx';
-
-const encodeUrl = ({ sortField, sortDirection, url, queryString }) => {
-  let searchQuery = '';
-  if (queryString) {
-    searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
-  }
-
-  let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
-  return encodeURI(`${url}?${sortQuery}${searchQuery}`);
-};
 
 function App() {
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
@@ -24,6 +14,16 @@ function App() {
   const [sortDirection, setSortDirection] = useState('desc');
   const [queryString, setQueryString] = useState('');
 
+  const encodeUrl = useCallback(() => {
+    let searchQuery = '';
+    if (queryString) {
+      searchQuery = `&filterByFormula=SEARCH("${queryString}",title)`;
+    }
+
+    let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
+    return encodeURI(`${url}?${sortQuery}${searchQuery}`);
+  }, [sortField, sortDirection, url, queryString]);
+
   useEffect(() => {
     const fetchTodos = async () => {
       setIsLoading(true);
@@ -35,7 +35,7 @@ function App() {
       };
       try {
         const resp = await fetch(
-          encodeUrl({ sortField, sortDirection, url, queryString }),
+          encodeUrl(),
           options
         );
         if (!resp.ok) {
@@ -86,7 +86,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection, url, queryString }),
+        encodeUrl(),
         options
       );
       if (!resp.ok) {
@@ -132,7 +132,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection, url, queryString }),
+        encodeUrl(),
         options
       );
       if (!resp.ok) {
@@ -175,7 +175,7 @@ function App() {
     try {
       setIsSaving(true);
       const resp = await fetch(
-        encodeUrl({ sortField, sortDirection, url, queryString }),
+        encodeUrl(),
         options
       );
       if (!resp.ok) {
